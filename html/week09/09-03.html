@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- DOM 객체의 addEventListener()메소드 활용 -->
+    <!--
+        addEventListener(eventName, listener[, useCapture])
+        - eventName : 이벤트 타입을 나타내는 문자열. click, load, keydown등
+        - listener : 이벤트 리스너로 등록할 함수 이름
+        - useCapture : true -> 캡쳐 단계에서 리스너 등록
+                       false -> 버블 단계에서 리스너 등록
+    -->
+    <meta charset="UTF-8">
+    <title>addEventListener()를 이용한 리스너 등록</title>
+    <script>
+        var p;
+        function init(){
+            p = document.getElementById("p");
+            p.addEventListener("mouseover",over);
+            p.addEventListener("mouseout",out);
+        }
+        function over(){
+            p.style.backgroundColor = "orchid";
+        }
+        function out(){
+            p.style.backgroundColor = "white";
+        }
+    </script>
+</head>
+<body onload="init()">
+    <h3>addEventListener()를 이용한 리스너 등록</h3>
+    <hr>
+    <p id="p">마우스를 올리면 orchid 색으로 변경</p>
+</body>
+</html>
