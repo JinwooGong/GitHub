@@ -1,0 +1,14 @@
+로그인
+git config --global user.name "이름"
+git config --global user.email "이메일"
+
+github에서 데이터 가져오기
+git pull origin main
+
+github에 데이터 보내기
+git add . //tracked 상태로 변경
+untraked -> git rm [파일명]
+git commit -m "commit" // 대기중인 파일 commit
+git commit -am "commit" //add와 함께 commit
+
+git log : commit된 정보를 출력
