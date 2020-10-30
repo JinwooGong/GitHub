@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 HelloGitHub
+=======
+HelloGitHub :p
+>>>>>>> e6b0db864ab3327139856839760d75658ed7fe99
