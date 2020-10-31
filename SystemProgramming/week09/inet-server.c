@@ -53,7 +53,7 @@ int main(void){
             exit(1);
         }
 
-        buf[n] = '\0';
+        buf[n] = '\0'; //버퍼의 끝을 NULL로 설정
         
         if(strcmp(buf,"q")==0){
             // 클라이언트로부터 q를 받으면 소켓 종료
