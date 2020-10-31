@@ -13,6 +13,8 @@ int main(void){
     struct sockaddr_in sin, cli;
     int sd, ns, clientlen = sizeof(cli);
     char *msg = "Server recevied the message";
+    int n;
+
     // 소켓 파일 기술자 지정
     if((sd = socket(AF_INET, SOCK_STREAM,0))==-1){
         perror("socket");
@@ -46,21 +48,27 @@ int main(void){
     }
     while(1){
         // 클라이언트로 부터 받은 문자열을 출력하고
-        if(recv(ns,buf,sizeof(buf),0) == -1){
+        if((n=recv(ns,buf,sizeof(buf),0)) == -1){
             perror("recv");
             exit(1);
         }
+
+        buf[n] = '\0';
+        
         if(strcmp(buf,"q")==0){
             // 클라이언트로부터 q를 받으면 소켓 종료
+            send(ns,buf,strlen(msg),0);
             break;
         }
-        printf("From Client : %s",buf);
+
+        printf("From Client : %s\n",buf);
 
         // 클라이언트에게 "Server received the message"문자열 전송
-        if(send(ns,msg,strlen(msg)+1,0)==-1){
+        if(send(ns,msg,strlen(msg),0)==-1){
             perror("send");
             exit(1);
         }
+        
     }
     
     close(ns);

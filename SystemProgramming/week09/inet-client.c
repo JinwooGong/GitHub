@@ -32,15 +32,17 @@ int main(void){
     }
     while(1){
         printf("문자열입력(종료:q) : ");
-        scanf("%s",s_buf);
-        if(strcmp(s_buf,"q")==0){
-            break;
-        }
+        gets(s_buf);
         
-        if(send(sd,s_buf,strlen(s_buf)+1,0)==-1){
+        if(send(sd,s_buf,strlen(s_buf),0)==-1){
             perror("send");
             exit(1);
         }
+
+        if(strcmp(s_buf,"q")==0){
+            break;
+        }
+
         printf("send success!!\n");
         if(recv(sd,r_buf, sizeof(r_buf),0)==-1){
             perror("recv");
