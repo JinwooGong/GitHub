@@ -29,7 +29,8 @@ int main(void){
     ser.sun_family = AF_UNIX;
     strcpy(ser.sun_path,SOCKET_NAME);
     len = sizeof(ser.sun_family) + strlen(ser.sun_path);
-
+    
+    
     if(connect(sd, (struct sockaddr *)&ser, len)){
         perror("connect");
         exit(1);

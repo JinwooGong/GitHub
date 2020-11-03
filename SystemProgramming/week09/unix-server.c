@@ -94,7 +94,6 @@ int main(void){
                     exit(1);
                 }
                 while((n=read(fd,buf,SIZE))>0){
-                    printf("n : %d\n",n);
                     if(send(nsd,buf,n,0)==-1){
                         perror("send");
                         exit(1);
