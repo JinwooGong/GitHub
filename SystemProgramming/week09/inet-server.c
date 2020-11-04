@@ -64,7 +64,7 @@ int main(void){
         printf("From Client : %s\n",buf);
 
         // 클라이언트에게 "Server received the message"문자열 전송
-        if(send(ns,msg,strlen(msg),0)==-1){
+        if(send(ns,msg,strlen(msg)+1,0)==-1){
             perror("send");
             exit(1);
         }
