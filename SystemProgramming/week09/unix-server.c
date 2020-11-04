@@ -17,6 +17,7 @@ int main(void){
     char buf[SIZE];         //파일 내용
     char dir_path[SIZE];    //디렉토리 경로
     char file_name[SIZE];   //파일 이름
+    char temp[SIZE];
     
 
     DIR *dp;
@@ -83,20 +84,25 @@ int main(void){
             file_name[f_index++] = dir_path[i+1];
             i++;
         }
-        dir_path[d_index] = '\0'; // 파일명 제외
+        dir_path[d_index+1] = '\0'; // 파일명 제외
         file_name[f_index] = '\0';        
 
         printf("directory path : %s\n",dir_path);
         printf("file name : %s\n",file_name);
 
-        chdir(dir_path); //디렉토리 이동
-        
+        chdir("/home/sp20135103/git/"); //디렉토리 이동
+        getcwd(temp,SIZE);
+        printf("temp : %s\n",temp);
+
         if((dp = opendir("."))==NULL){ //이동한 디렉토리 open
             perror("opendir");
             exit(1);
         }
 
+        getcwd(temp,SIZE);
+        printf("temp : %s\n",temp);
         while((dent=readdir(dp))){ //디렉토리 내의 파일을 하나씩 read
+            printf("%s\n", dent->d_name);
             if(strcmp(dent->d_name,file_name)==0){ //클라이언트로부터 받은 경로의 파일명과 같으면 실행
                 f_flag=1; //발견 flag
                 if((fd=open(file_name,O_RDONLY))==-1){ //파일 open

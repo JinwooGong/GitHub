@@ -11,9 +11,9 @@
 int main(void){
     char s_buf[256]; // 전송할 문자열을 담는 버퍼
     char r_buf[256]; // 받은 문자열을 담는 버퍼
-    int sd, n;
+    int sd;
     struct sockaddr_in sin; // 서버의 주소를 담는 구조체
-
+    
     // 소켓 파일 기술자 생성
     if((sd=socket(AF_INET,SOCK_STREAM,0))==-1){
         perror("socket");
@@ -25,7 +25,7 @@ int main(void){
     sin.sin_family = AF_INET;
     sin.sin_port = htons(PORTNUM); // 호스트 바이트 주소를 네트워크 바이트 주소로 변환
     sin.sin_addr.s_addr = inet_addr("127.0.0.1");
-
+    
     if(connect(sd, (struct sockaddr*)&sin, sizeof(sin))==-1){
         perror("connect");
         exit(1);
@@ -34,15 +34,15 @@ int main(void){
         printf("문자열입력(종료:q) : ");
         gets(s_buf);
         
-        if((n=send(sd,s_buf,strlen(s_buf),0))==-1){
+        if(send(sd,s_buf,strlen(s_buf),0)==-1){
             perror("send");
             exit(1);
         }
-        s_buf[n]='\0';
+        
         if(strcmp(s_buf,"q")==0){
             break;
         }
-
+        
         printf("send success!!\n");
         if(recv(sd,r_buf, sizeof(r_buf),0)==-1){
             perror("recv");

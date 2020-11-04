@@ -8,12 +8,12 @@ int main(int argc, char *argv[]){
     struct hostent *hent;
     char search_host[20];
     int i=0;
-
+    
     strcpy(search_host,argv[1]);
     sethostent(0);
-
+    
     //hent = gethostbyname(argv[1]); // dns까지 검색
-
+    
     while((hent=gethostent())!=NULL){
         if(strcmp(search_host,hent->h_name)==0){
             while(hent->h_addr_list[i]){ // ip 주소 배열에서 값을 가져옴
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
         printf("No Search %s\n",argv[1]);
         exit(1);
     }
-
+    
     endhostent();
     return 0;
 }

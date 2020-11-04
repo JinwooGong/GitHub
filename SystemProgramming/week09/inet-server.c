@@ -14,32 +14,32 @@ int main(void){
     int sd, ns, clientlen = sizeof(cli);
     char *msg = "Server recevied the message";
     int n;
-
+    
     // 소켓 파일 기술자 지정
     if((sd = socket(AF_INET, SOCK_STREAM,0))==-1){
         perror("socket");
         exit(1);
     }
-
+    
     // 소켓 생성
     memset((char*)&sin,'\0',sizeof(sin)); // 메모리 초기화
     sin.sin_family = AF_INET; // 인터넷 소켓
     sin.sin_port = htons(PORTNUM); // 호스트 바이트를 네트워크 바이트로 변환
     sin.sin_addr.s_addr = inet_addr("127.0.0.1"); // 문자열 형태의 ip주소를 숫자 형태로 변환
-
+    
     // 소켓 bind
     if(bind(sd, (struct sockaddr *)&sin, sizeof(sin))){
         perror("bind");
         exit(1);
     }
-
+    
     // listen
     // 5개의 큐로 통신함
     if(listen(sd, 5)){
         perror("listen");
         exit(1);
     }
-
+    
     // accept
     // 활성화된 클라이언트의 정보를 저장하고 ns 소켓 파일 기술자로 통신
     if((ns=accept(sd, (struct sockaddr *)&cli, &clientlen))==-1){
@@ -52,7 +52,7 @@ int main(void){
             perror("recv");
             exit(1);
         }
-
+        
         buf[n] = '\0'; //버퍼의 끝을 NULL로 설정
         
         if(strcmp(buf,"q")==0){
@@ -60,11 +60,11 @@ int main(void){
             send(ns,buf,strlen(msg),0);
             break;
         }
-
+        
         printf("From Client : %s\n",buf);
-
+        
         // 클라이언트에게 "Server received the message"문자열 전송
-        if(send(ns,msg,strlen(msg)+1,0)==-1){
+        if(send(ns,msg,strlen(msg),0)==-1){
             perror("send");
             exit(1);
         }
