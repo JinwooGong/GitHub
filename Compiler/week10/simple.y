@@ -6,7 +6,7 @@
 %start program /* start symbol*/
 %token LET IN END
 %token IDENTIFIER
-%token SKIP IF THEN ELSE END WHILE DO READ WRITE FI
+%token SKIP IF THEN ELSE WHILE DO READ WRITE FI
 %token NUMBER
 
 %right ':=' /* 오른쪽 우선순위 (제일 낮은 순위) */
@@ -18,7 +18,7 @@
 %right ')' /* 오른쪽 우선 순위 (제일 높은 순위) */
 
 %%
-program : LET declarations IN command_sequence END {YYACCEPT; //정상 종료(반드시 필요)}
+program : LET declarations IN command_sequence END {YYACCEPT;}
 ;
 
 declarations : /* empty */
@@ -33,7 +33,7 @@ command_sequence : /* empty */
 | command_sequence command
 ;
 command : SKIP ';'
-| IDENTIFIER := expression ';'
+| IDENTIFIER ':=' expression ';'
 | IF exp THEN command_sequence ELSE command_sequence FI ';'
 | WHILE exp DO command_sequence END ';'
 | READ IDENTIFIER ';'
