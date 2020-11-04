@@ -86,7 +86,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 2 "09-1.y"
+#line 2 "20135103-09-1.y"
 
 #include <stdio.h>
 
@@ -125,7 +125,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 129 "09-1.tab.c"
+#line 129 "20135103-09-1.tab.c"
 
 #ifdef short
 # undef short
@@ -1315,43 +1315,43 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 14 "09-1.y"
+#line 14 "20135103-09-1.y"
     { printf("= %d\n", (yyvsp[(2) - (3)]));;}
     break;
 
   case 4:
-#line 16 "09-1.y"
+#line 16 "20135103-09-1.y"
     {(yyval) = (yyvsp[(1) - (1)]); ;}
     break;
 
   case 5:
-#line 17 "09-1.y"
+#line 17 "20135103-09-1.y"
     { (yyval) = (yyvsp[(1) - (3)]) + (yyvsp[(3) - (3)]); printf("ADD Reduce\n"); ;}
     break;
 
   case 6:
-#line 18 "09-1.y"
+#line 18 "20135103-09-1.y"
     { (yyval) = (yyvsp[(1) - (3)]) - (yyvsp[(3) - (3)]); printf("SUB Reduce\n");;}
     break;
 
   case 8:
-#line 21 "09-1.y"
+#line 21 "20135103-09-1.y"
     { (yyval) = (yyvsp[(1) - (3)]) * (yyvsp[(3) - (3)]); printf("MUL Reduce\n"); ;}
     break;
 
   case 9:
-#line 22 "09-1.y"
+#line 22 "20135103-09-1.y"
     { (yyval) = (yyvsp[(1) - (3)]) / (yyvsp[(3) - (3)]); printf("DIV Reduce\n");;}
     break;
 
   case 10:
-#line 24 "09-1.y"
+#line 24 "20135103-09-1.y"
     { printf("NUMBER Reduce\n");;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1355 "09-1.tab.c"
+#line 1355 "20135103-09-1.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1565,7 +1565,7 @@ yyreturn:
 }
 
 
-#line 26 "09-1.y"
+#line 26 "20135103-09-1.y"
 
 int main(int argc, char **argv)
 {

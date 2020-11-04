@@ -11,7 +11,7 @@
 int main(void){
     char s_buf[256]; // 전송할 문자열을 담는 버퍼
     char r_buf[256]; // 받은 문자열을 담는 버퍼
-    int sd;
+    int sd, n;
     struct sockaddr_in sin; // 서버의 주소를 담는 구조체
 
     // 소켓 파일 기술자 생성
@@ -34,11 +34,11 @@ int main(void){
         printf("문자열입력(종료:q) : ");
         gets(s_buf);
         
-        if(send(sd,s_buf,strlen(s_buf),0)==-1){
+        if((n=send(sd,s_buf,strlen(s_buf),0))==-1){
             perror("send");
             exit(1);
         }
-
+        s_buf[n]='\0';
         if(strcmp(s_buf,"q")==0){
             break;
         }

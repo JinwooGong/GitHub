@@ -6,19 +6,17 @@
 %start program /* start symbol*/
 %token LET IN END
 %token IDENTIFIER
-%token SKIP IF THEN ELSE END WHILE DO READ WRITE FI
-%token NUMBER
+%token SKIP IF THEN ELSE WHILE DO READ WRITE FI
+%token NUMBER INTEGER
 
 %right ':=' /* 오른쪽 우선순위 (제일 낮은 순위) */
 %left '=' '<' '>'
 %left '-' '+' /* 왼쪽 우선순위 */
 %left '/' '*' /* 왼쪽 우선순위 */
-%right '^' 
-%left '('
-%right ')' /* 오른쪽 우선 순위 (제일 높은 순위) */
+%right '^' /* 오른쪽 우선 순위 (제일 높은 순위) */
 
 %%
-program : LET declarations IN command_sequence END {YYACCEPT; //정상 종료(반드시 필요)}
+program : LET declarations IN command_sequence END {YYACCEPT;}
 ;
 
 declarations : /* empty */
@@ -33,7 +31,7 @@ command_sequence : /* empty */
 | command_sequence command
 ;
 command : SKIP ';'
-| IDENTIFIER := expression ';'
+| IDENTIFIER ':=' expression ';'
 | IF exp THEN command_sequence ELSE command_sequence FI ';'
 | WHILE exp DO command_sequence END ';'
 | READ IDENTIFIER ';'
@@ -46,21 +44,19 @@ exp : expression '=' expression
 ;
 
 expression : NUMBER | IDENTIFIER | '(' expression ')'
-| expression '+' expression | expression '-' expression
-| expression '*' expression | expression '/' expression
+| expression '+' expression {$$ = $1 + $3;} | expression '-' expression {$$ = $1 - $3;}
+| expression '*' expression {$$ = $1 * $3;} | expression '/' expression {$$ = $1 / $3;}
 |expression '^' expression
 ;
 %%
-main(int argc, char *argv[]){
+int main(int argc, char *argv[]){
     extern FILE *yyin;
-    argv++;
-    argc--;
-    yyin = fopen(argv[0],"r");
-    yydebug = 1;
+    yyin = fopen(argv[1],"r");
+	printf("> ");
+	yyparse();
     return 0;
 }
 
-void yyerror(cahr *s){
-    printf("%s\n",s);
-    return 1;
+void yyerror(char *s){
+    printf("error: %s\n",s);
 }
