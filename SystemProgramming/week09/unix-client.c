@@ -57,7 +57,7 @@ int main(void){
             n=recv(sd, r_buf,SIZE,0);
         }
 
-        r_buf[n]='\0'; //남은 
+        r_buf[n]='\0'; //남은 buffer 출력 및 byte가 초과되지 않은 내용 출력
         printf("%s",r_buf);
 
     }
