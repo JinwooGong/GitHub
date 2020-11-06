@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <fcntl.h>
 
 #define PORTNUM 9000 // 포트 번호
 

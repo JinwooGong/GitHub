@@ -8,14 +8,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define SOCKET_NAME "chat"
+
 int main(void){
     char buf[256];
     struct sockaddr_un ser, cli;
     int sd, nsd, len, clen;
     int flag;
 
-    memset((char *)&ser, 0, sizeof(struct sockaddr_un));
+    memset((char *)&ser, '\0', sizeof(struct sockaddr_un));
     ser.sun_family = AF_UNIX;
+    strcpy(ser.sun_path, SOCKET_NAME);
     len = sizeof(ser.sun_family) + strlen(ser.sun_path);
 
     if((sd = socket(AF_UNIX,SOCK_STREAM, 0))==-1){
