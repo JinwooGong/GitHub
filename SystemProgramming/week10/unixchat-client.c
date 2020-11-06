@@ -12,33 +12,38 @@ int main(void){
     char buf[256];
     struct sockaddr_un ser;
     int sd, len, flag;
+    int n;
 
-    memeset((char *)&ser, '\0', sizeof(ser));
-    ser.sun_family = AF_UNIX;
-    strcpy(ser.sun_path, SOCKET_NAME);
-    len = sizeof(ser.sun_family) + strlen(ser.sun_path);
-
-    if((sd = socket(AF_UNIX,SOCK_STREAM, 0)) == -1){
+    if((sd = socket(AF_UNIX, SOCK_STREAM, 0))==-1){
         perror("socket");
         exit(1);
     }
 
-    if(connect(sd, (struct sockaddr*)&ser, len)){
+    memset((char *)&ser,'\0', sizeof(struct sockaddr_un));
+    ser.sun_family = AF_UNIX;
+    strcpy(ser.sun_path, SOCKET_NAME);
+    len = sizeof(ser.sun_family) + strlen(ser.sun_path);
+
+    if(connect(sd, (struct sockaddr *)&ser, len)<0){
         perror("connect");
         exit(1);
     }
     while(1){
-        printf("Input Text: ");
+        printf("Input text > ");
         gets(buf);
-        if(recv(sd, buf, strlen(buf), 0) == -1){
-            printf("YOU : %s\n",buf);
+        printf("> Me : %s\n",buf);
+        if(send(sd, buf, sizeof(buf), 0) == -1){
+            perror("send");
+            exit(1);
         }
-        if(send(sd, buf, strlen(buf)+1, 0) == -1){
-            printf("ME : %s\n",buf);
+        if(strcmp(buf,"<QUIT>")==0) break;
+
+        printf("Wating Message...\n");
+        if(recv(sd, buf, sizeof(buf), 0) == -1){
+            perror("recv");
+            exit(1);
         }
-        if(strcmp(buf,"<QUIT>")==0){
-            break;
-        }
+        printf("> You : %s\n",buf);
     }
     close(sd);
     return 0;
