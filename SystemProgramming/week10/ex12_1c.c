@@ -9,7 +9,7 @@
 #include <string.h>
 
 //클라이언트도 서버와 같은 포트 번호를 사용해 소켓을 생성한다.
-#define PORTNUM 9001
+#define PORTNUM 9090
 
 int main(void){
     int sd;

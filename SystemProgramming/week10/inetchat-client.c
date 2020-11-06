@@ -1,33 +1,36 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <sys/un.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define SOCKET_NAME "chat"
+#define PORTNUM 9090
 
-int main(void){
+int main(int argc, char *argv[]){
     char buf[256];
-    struct sockaddr_un ser;
-    int sd, len, flag;
-    int n;
-
-    if((sd = socket(AF_UNIX, SOCK_STREAM, 0))==-1){
+    struct sockaddr_in sin;
+    int sd;
+    
+    //socket
+    if((sd = socket(AF_INET, SOCK_STREAM, 0))==-1){
         perror("socket");
         exit(1);
     }
 
-    memset((char *)&ser,'\0', sizeof(struct sockaddr_un));
-    ser.sun_family = AF_UNIX;
-    strcpy(ser.sun_path, SOCKET_NAME);
-    len = sizeof(ser.sun_family) + strlen(ser.sun_path);
+    memset((char *)&sin, '\0', sizeof(sin));
+    sin.sin_family = AF_INET;
+    sin.sin_port = htons(atoi(argv[2]));
+    sin.sin_addr.s_addr = inet_addr(argv[1]);
 
-    if(connect(sd, (struct sockaddr *)&ser, len)<0){
+    //connect
+    if(connect(sd, (struct sockaddr*)&sin, sizeof(sin))==-1){
         perror("connect");
         exit(1);
     }
+
     while(1){
         printf("Input text > ");
         gets(buf);
@@ -46,6 +49,7 @@ int main(void){
         printf("> You : %s\n",buf);
         if(strcmp(buf,"<QUIT>")==0) break;
     }
+    
     close(sd);
     return 0;
 }
