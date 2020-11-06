@@ -1833,13 +1833,4 @@ void yyfree (void * ptr )
 #line 25 "simple.l"
 
 
-/*
-int main(void){
-	int tok;
-	while(tok=yylex()){
-		printf("%s\t%d\n",yytext,tok);
-	}
-	return 0;
-}
-*/
 
