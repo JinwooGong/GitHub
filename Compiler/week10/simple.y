@@ -7,11 +7,7 @@
 %token LET IN END
 %token IDENTIFIER
 %token SKIP IF THEN ELSE WHILE DO READ WRITE FI
-<<<<<<< HEAD
-%token NUMBER
-=======
 %token NUMBER INTEGER
->>>>>>> 8e5ff99e614dc0db9da64243c3a2f4d06551a18a
 
 %right ':=' /* 오른쪽 우선순위 (제일 낮은 순위) */
 %left '=' '<' '>'
