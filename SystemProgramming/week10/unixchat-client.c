@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
 
 #define SOCKET_NAME "chat"
 
@@ -28,15 +27,13 @@ int main(void){
         perror("connect");
         exit(1);
     }
-    flag = fcntl(nsd, F_GETFL, 0);
-    fcntl(nsd, F_SETFL, flag | O_NONBLOCK);
     while(1){
         printf("Input Text: ");
         gets(buf);
-        if(recv(nsd, buf, strlen(buf), 0) == -1){
+        if(recv(sd, buf, strlen(buf), 0) == -1){
             printf("YOU : %s\n",buf);
         }
-        if(send(nsd, buf, strlen(buf)+1, 0) == -1){
+        if(send(sd, buf, strlen(buf)+1, 0) == -1){
             printf("ME : %s\n",buf);
         }
         if(strcmp(buf,"<QUIT>")==0){

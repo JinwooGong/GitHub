@@ -40,8 +40,7 @@ int main(void){
         perror("accept");
         exit(1);
     }
-    flag = fcntl(nsd, F_GETFL, 0);
-    fcntl(nsd, F_SETFL, flag | O_NONBLOCK);
+
     while(1){
         printf("Input Text: ");
         gets(buf);
