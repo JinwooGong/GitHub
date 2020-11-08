@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>웹프로그래밍 10주차 실습과제</title>
+    <style>
+        form{
+            margin : 10px;
+        }
+        input[type="radio"]{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body> 
+    <h2>춘천 홍보 설문 조사</h2>
+    <form name="info">
+        이름 : <input type="text" name="nameInfo">
+    </form>
+    <hr>
+    <form name="q1">
+        <strong>Q1. 춘천이 어떤 도시로 인식되는지 선택해 주세요.</strong><br>
+        <input type="radio" name = "a1" value = "1">먹을거리가 있는 도시 <br>
+        <input type="radio" name = "a1" value = "2">경관 휴양 도시 <br>
+        <input type="radio" name = "a1" value = "3">청정환경 도시<br>
+        <input type="radio" name = "a1" value = "4">문화예술의 도시<br>
+    </form>
+    <hr>
+    <form name="q2">
+        <strong>Q2. 춘천하면 떠오르는 단어를 선택해 주세요.</strong><br>
+        <input type="radio" name = "a2" value = "1">닭갈비 <br>
+        <input type="radio" name = "a2" value = "2">소양강 <br>
+        <input type="radio" name = "a2" value = "3">호반의 도시 <br>
+        <input type="radio" name = "a2" value = "4">막국수 <br>
+    </form>
+    <hr>
+    <form name="q3">
+        <strong>Q3. 원하시는 체험 관광 상품을 선택해 주세요.</strong><br>
+        <input type="text">
+    </form>
+    <hr>
+    <form name = "q4">
+        <strong>Q4. 2020년 올해에 춘천을 방문한 적이 있다.</strong><br>
+        <input type="radio" name = "a4" value = "1">그렇다 &nbsp;&nbsp;&nbsp;
+        <input type="radio" name = "a4" value = "2">아니다
+    </form>
+    <hr>
+    <form name = "q5">
+        <strong>Q5. 춘천이 가깝다고 생각한다.</strong><br>
+        <input type="radio" name = "a5" value = "1">그렇다 &nbsp;&nbsp;&nbsp;
+    </form>
+    <input type="submit" name ="sub" value = "Submit">
+</body>
+</html>
