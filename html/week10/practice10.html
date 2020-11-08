@@ -11,6 +11,63 @@
             margin-top: 10px;
         }
     </style>
+    <script>
+        var q1Arr = [0, 0, 0, 0];
+        var q2Arr = [0, 0, 0, 0];
+        var q3Arr = [0, 0, 0, 0];
+        var q4Arr = [0, 0];
+        var q5Arr = [0 ,0];
+
+        function submitRadio(){
+
+            span = document.getElementById("span");
+            
+            q1Arr[parseInt(document.q1.a1.value)-1] += 1;
+            q2Arr[parseInt(document.q2.a2.value)-1] += 1;
+            q3Arr[parseInt(document.q3.a3.value)-1] += 1;
+            q4Arr[parseInt(document.q4.a4.value)-1] += 1;
+            q5Arr[parseInt(document.q5.a5.value)-1] += 1;
+
+
+            
+            span.innerHTML = String(q1Arr[0]) + String(q1Arr[1]) + String(q1Arr[2]) + String(q1Arr[3]) + "<br>" +
+            String(q2Arr[0]) + String(q2Arr[1]) + String(q2Arr[2]) + String(q2Arr[3]) + "<br>" +
+            String(q3Arr[0]) + String(q3Arr[1]) + String(q3Arr[2]) + String(q3Arr[3]) + "<br>" +
+            String(q4Arr[0]) + String(q4Arr[1]) + "<br>" +
+            String(q5Arr[0]) + String(q5Arr[1]) + "<br>";
+            
+        }
+
+        function writeFile(){
+            var txt = String(q1Arr[0]) + String(q1Arr[1]) + String(q1Arr[2]) + String(q1Arr[3]) + "<br>";
+            var fileObject = new ActiveXObject("Scripting.FileSystemObject");
+            fWrite = fileObject.CreateElement("Users\\apple\\git\\html\\week10\\test2.txt");
+            fWrite.write(txt);
+            fWrite.close();
+        }
+        function openTextFile() {
+            var input = document.createElement("input");
+            input.type = "file";
+            input.accept = "text/plain";
+
+            input.onchange = function (event) {
+                processFile(event.target.files[0]);
+            };
+            input.click();
+        }
+
+
+
+        function processFile(file) {
+            var reader = new FileReader();
+
+            reader.onload = function () {
+                output.innerText = reader.result;
+            };
+
+            reader.readAsText(file, /* optional */ "euc-kr");
+        }
+    </script>
 </head>
 <body> 
     <h2>춘천 홍보 설문 조사</h2>
@@ -36,7 +93,10 @@
     <hr>
     <form name="q3">
         <strong>Q3. 원하시는 체험 관광 상품을 선택해 주세요.</strong><br>
-        <input type="text">
+        <input type="radio" name = "a3" value = "1">강촌 레일바이크 <br>
+        <input type="radio" name = "a3" value = "2">시티 투어 <br>
+        <input type="radio" name = "a3" value = "3">소양강 스카이워크 <br>
+        <input type="radio" name = "a3" value = "4">의암호 물레길 <br>
     </form>
     <hr>
     <form name = "q4">
@@ -48,7 +108,18 @@
     <form name = "q5">
         <strong>Q5. 춘천이 가깝다고 생각한다.</strong><br>
         <input type="radio" name = "a5" value = "1">그렇다 &nbsp;&nbsp;&nbsp;
+        <input type="radio" name = "a5" value = "2">아니다
     </form>
-    <input type="submit" name ="sub" value = "Submit">
+    <br>
+    <input type="submit" name ="sub" value = "Submit" onclick = submitRadio()> <br>
+    <button onclick = "openTextFile()">Open</button> &nbsp;&nbsp;&nbsp;
+    <button onclick = "writeFile()">Write</button>
+    
+    <p>
+        <span id = "span">test</span>
+    </p>
+    <p>
+        <div id = "output"></div>
+    </p>
 </body>
 </html>
