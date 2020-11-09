@@ -2,10 +2,69 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ex03</title>
 </head>
 <body>
+    <form>
+        <fieldset>
+            <form>
+                <legend>사용자 정보</legend>
+                <label for="id">아이디: </label>
+                <input type="text", id="id" name ="id"><br><br>
+                <label for="password">비밀번호: </label>
+                <input type="password" id="password" name = "password"><br><br>
+                <label for="email">이메일: </label>
+                <input type="email" name="email" placeholder="test@orcasoft.co.kr"><br><br>
+                <label for="birthday">생일: </label>
+                <input type="date" id="birthday" name="birthday" value="2020-01-01"><br><br>
+
+                <label for="sgg">지역: </label>
+                <select name="sgg" id="sgg">
+                    <option>서울 특별시</option>
+                    <optgroup label = "경기도">
+                        <option>성남시</option>
+                        <option>용인시</option>
+                    </optgroup>
+                    <optgroup label="강원도">
+                        <option>춘천시</option>
+                        <option>원주시</option>
+                    </optgroup>
+                </select>
+            </form>
+            <br><br>
+            <form>
+                <label for="discription">특이사항</label><br>
+                <textarea name="discription" id="discription" cols="30" rows="10"></textarea><br><br>
+                <input type="submit" value="전송">
+                <button type="submit">전송</button>
+            </form>
+        </fieldset>
+    </form>
+
+    <form>
+        <fieldset>
+            <legend>사용자 정보(table)</legend>
+            <table>
+                <tr>
+                    <th><label for="id">아이디</label></th>
+                    <td><input type="text" id="id" name ="id"></td>
+                </tr>
+                <tr>
+                    <th><label for="password">비밀번호</label></th>
+                    <td><input type="password" name="password" id="password"></td>
+                </tr>
+                <tr>
+                    <th><label for="email">이메일</label></th>
+                    <td><input type="email" name="email" id="email"></td>
+                </tr>
+                <tr>
+                    <th><label for="birthday">생일</label></th>
+                    <td><input type="date" name="birthday" id="birthday"></td>
+                </tr>
+            </table>
+            <button type="submit">전송</button>
+        </fieldset>
+    </form>
     
 </body>
 </html>
