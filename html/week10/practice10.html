@@ -163,11 +163,20 @@
 
         function result(){
             road();
+            var temp;
+            var q1_string =["먹을거리가 있는 도시","경관 휴양 도시","청정환경 도시","문화예술의 도시"];
             document.write("<h2>춘천 홍보 설문 조사</h2>");
             document.write("총 설문조사 수 : "+total)
             document.write("<hr>");
+
+            sort(q1_string);
+            document.write(q1_string);
             document.write("<strong>Q1. 춘천이 어떤 도시로 인식되는지 선택해 주세요.</strong><br>");
-            document.write("먹을거리가 있는 도시 (" + Math.floor(q1Arr[0]/total*100) + "%)<br>");
+            
+            for(var i = 0;i<q1Arr.length;i++){
+                document.write(q1_string[i] + "("+ Math.floor(q1Arr[i]/total*100)+"%)<br>");
+            }
+            /*document.write("먹을거리가 있는 도시 (" + Math.floor(q1Arr[0]/total*100) + "%)<br>");
             document.write("경관 휴양 도시 (" + Math.floor(q1Arr[1]/total*100)+ "%)<br>");
             document.write("청정환경 도시 (" + Math.floor(q1Arr[2]/total*100)+ "%)<br>");
             document.write("문화예술의 도시 (" + Math.floor(q1Arr[3]/total*100)+ "%)<br>");
@@ -195,7 +204,26 @@
             document.write("<strong>Q5. 춘천이 가깝다고 생각한다.</strong><br>");
             document.write("그렇다 (" + Math.floor(q5Arr[0]/total*100) + "%)<br>");
             document.write("아니다 (" + Math.floor(q5Arr[1]/total*100)+ "%)<br>");
+            */
+        }
+        function sort(str){
+            var temp;
+            for (var i = 0; i < q1Arr.length - 1; i++)
+            {
+                for (var j = 0; j < q1Arr.length - 1 - i; j++)
+                {
+                    if (q1Arr[j] < q1Arr[j + 1])
+                    {
+                        temp = q1Arr[j];
+                        q1Arr[j] = q1Arr[j + 1];
+                        q1Arr[j + 1] = temp;
 
+                        temp = str[j];
+                        str[j] = str[j+1];
+                        str[j+1] = temp;
+                    }
+                }
+            }
         }
     </script>
 </head>

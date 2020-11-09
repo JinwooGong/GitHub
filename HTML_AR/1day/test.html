@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script>
+        
+        var q1Arr = [1,2,3,4];
+        
+        function bubble(){
+            var span = document.getElementById("span");
+            
+            var q1_string =["먹을거리가 있는 도시","경관 휴양 도시","청정환경 도시","문화예술의 도시"];
+        
+            sort(q1_string);
+            
+            span.innerHTML = q1_string;
+        }
+        function sort(str){
+            var temp;
+            for (var i = 0; i < q1Arr.length - 1; i++)
+            {
+                for (var j = 0; j < q1Arr.length - 1 - i; j++)
+                {
+                    if (q1Arr[j] < q1Arr[j + 1])
+                    {
+                        temp = q1Arr[j];
+                        q1Arr[j] = q1Arr[j + 1];
+                        q1Arr[j + 1] = temp;
+
+                        temp = str[j];
+                        str[j] = str[j+1];
+                        str[j+1] = temp;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="button" onclick="bubble()">
+    <span id="span">test</span>
+</body>
+</html>
