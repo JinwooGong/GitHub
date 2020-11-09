@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function test(){
+            var res = [0, 0, 0, 0];
+            var span = document.getElementById("span");
+            
+            var q1 = document.getElementsByName("q1");
+            for(var i = 0;i<4;i++){
+                if(q1[i].checked == true){
+                    res[parseInt(q1[i].value)-1]++;
+                    break;
+                }
+            }
+            alert(res[0]);
+        }
+        
+    </script>
+</head>
+<body>
+    <form>
+        <input type="radio" name = "q1" value = "1">test1
+        <input type="radio" name = "q1" value = "2">test2
+        <input type="radio" name = "q1" value = "3">test3
+        <input type="radio" name = "q1" value = "4">test4
+        <input type="button" value="result" onclick="test()">
+    </form>
+    <span id ="span">
+        test
+    </span>
+</body>
+</html>
