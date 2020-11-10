@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>춘천 홍보 설문조사</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+
+        var res1 = new Array(4);
+        var res2 = new Array(4);
+        var res3 = new Array(4);
+        var res4 = new Array(4);
+        var res5 = new Array(4);
+        var res6 = new Array(4);
+        var res7 = new Array(4);
+        var res8 = new Array(4);
+        var mid="";
+
+        function submitsurvey(){
+            var noti = document.getElementById("result");
+            var fileObject = new ActiveXObject("Scripting.FileSystemObject");
+            var path = "C:\\Users\\tloc0\\Desktop\\실습\\웹프\\201106\\result.txt";
+            
+
+            res1 = [0,0,0,0];
+            res2 = [0,0,0,0];
+            res3 = [0,0,0,0];
+            res4 = [0,0,0,0];
+            res5 = [0,0,0,0];
+            res6 = [0,0,0,0];
+            res7 = [0,0,0,0];
+            res8 = [0,0,0,0];
+            
+            var q1 = document.getElementsByName("q1");
+            var q2 = document.getElementsByName("q2");
+            var q3 = document.getElementsByName("q3");
+            var q4 = document.getElementsByName("q4");
+            var q5 = document.getElementsByName("q5");
+            var q6 = document.getElementsByName("q6");
+            var q7 = document.getElementsByName("q7");
+            var q8 = document.getElementsByName("q8");
+            
+
+            for(var i=0; i<q1.length; i++){
+                if(q1[i].checked == true){
+                    res1[parseInt(q1[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q2.length; i++){
+                if(q2[i].checked == true){
+                    res2[parseInt(q2[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q3.length; i++){
+                if(q3[i].checked == true){
+                    res3[parseInt(q3[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q4.length; i++){
+                if(q4[i].checked == true){
+                    res4[parseInt(q4[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q5.length; i++){
+                if(q5[i].checked == true){
+                    res5[parseInt(q5[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q6.length; i++){
+                if(q6[i].checked == true){
+                    res6[parseInt(q6[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q7.length; i++){
+                if(q7[i].checked == true){
+                    res7[parseInt(q7[i].value)-1]++;
+                    break;
+                }
+            }
+            for(var i=0; i<q8.length; i++){
+                if(q8[i].checked == true){
+                    res8[parseInt(q8[i].value)-1]++;
+                    break;
+                }
+            }
+            var fOpen = fileObject.OpenTextFile(path, 1);
+            var fWrite = fileObject.CreateTextFile(path,true);
+            var text = "";
+
+            while(!fOpen.AtEndOfStream){
+                text += fOpen.Readline();
+            }
+            
+            
+
+            for(var i=0; i<res1.length; i++){
+                text += res1[i];
+            }
+            text += "\n";
+            for(var i=0; i<res2.length; i++){
+                text += res2[i];
+            }
+            text += "\n";
+            for(var i=0; i<res3.length; i++){
+                text += res3[i];
+            }
+            text += "\n";
+            for(var i=0; i<res4.length; i++){
+                text += res4[i];
+            }
+            text += "\n";
+            for(var i=0; i<res5.length; i++){
+                text += res5[i];
+            }
+            text += "\n";
+            for(var i=0; i<res6.length; i++){
+                text += res6[i];
+            }
+            text += "\n";
+            for(var i=0; i<res7.length; i++){
+                text += res7[i];
+            }
+            text += "\n";
+            for(var i=0; i<res8.length; i++){
+                text += res8[i];
+            }
+            fWrite.write(text);
+            fWrite.close();
+            alert("end");
+
+        }
+        function showsurvey(){
+            var k=0;
+            var result1 = new Array();
+            var resArr = new Array(Array(), Array());
+            var fileObject = new ActiveXObject("Scripting.FileSystemObject");
+            var path = "C:\\Users\\tloc0\\Desktop\\실습\\웹프\\201106\\result.txt";
+            var fOpen = fileObject.OpenTextFile(path, 1);
+            document.getElementById("result").innerHTML ="";
+
+            do{
+                result1 += fOpen.Readline();
+            }while(!fOpen.AtEndOfStream);
+            fOpen.close();
+
+            
+            document.write(resArr);
+        }
+    </script>
+</head>
+
+<body>
+    <h2>춘천 홍보 설문 조사</h2>
+    <form name="info">
+        <p>본 설문은 익명 설문조사입니다. 성실히 답해주시면 감사하겠습니다.</p>
+    </form>
+    <hr>
+    <form name="ques1">Q1. 춘천에서 가볼만 한 관광지는? <br>
+        <label><input type="radio" name="q1" value="1">소양댐</label> <br>
+        <label><input type="radio" name="q1" value="2">소양강 처녀상, 스카이워크</label> <br>
+        <label><input type="radio" name="q1" value="3">구봉산 카페거리</label> <br>
+        <label><input type="radio" name="q1" value="4">남이섬</label> <br>
+    </form>
+    <br>
+    <form name="ques2">Q2. 춘천에 오는 이유는? <br>
+        <label><input type="radio" name="q2" value="1">할것이 많다 </label><br>
+        <label><input type="radio" name="q2" value="2">교통이 편리하다</label> <br>
+        <label><input type="radio" name="q2" value="3">맛있는 음식이 많다</label> <br>
+        <label><input type="radio" name="q2" value="4">공기가 좋다</label> <br>
+    </form>
+    <br>
+    <form name="ques3">Q3. 춘천에 오기 좋은 계절은? <br>
+        <label><input type="radio" name="q3" value="1">봄 </label><br>
+        <label><input type="radio" name="q3" value="2">여름 </label><br>
+        <label><input type="radio" name="q3" value="3">가을 </label><br>
+        <label><input type="radio" name="q3" value="4">겨울 </label><br>
+    </form>
+    <br>
+    <form name="ques4">Q4. 춘천하면 생각나는 것은? <br>
+        <label><input type="radio" name="q4" value="1">닭갈비,막국수 </label><br>
+        <label><input type="radio" name="q4" value="2">소양강</label> <br>
+        <label><input type="radio" name="q4" value="3">에니메이션</label> <br>
+        <label><input type="radio" name="q4" value="4">소설가 김유정 </label> <br>
+    </form>
+    <br>
+    <form name="ques5">Q5. 춘천에서 열리는 축제 중 참여해보고 싶은 축제는? <br>
+        <label><input type="radio" name="q5" value="1">춘천인형극제 </label><br>
+        <label><input type="radio" name="q5" value="2">춘천마임축제 </label><br>
+        <label><input type="radio" name="q5" value="3">김유정문학제 </label><br>
+        <label><input type="radio" name="q5" value="4">춘천닭갈비,막국수 축제 </label><br>
+    </form>
+    <br>
+    <form name="ques6">Q6. 춘천에 생겼으면 좋겠는 것은? <br>
+        <label> <input type="radio" name="q6" value="1">대형 백화점 </label><br>
+        <label><input type="radio" name="q6" value="2">페밀리 레스토랑</label> <br>
+        <label><input type="radio" name="q6" value="3">테마파크</label><br>
+        <label> <input type="radio" name="q6" value="4">창고형 마트 </label><br>
+    </form>
+    <br>
+    <form name="ques7">Q7. 춘천에 바라는 점은? <br>
+        <label><input type="radio" name="q7" value="1">심야교통 개선 </label><br>
+        <label><input type="radio" name="q7" value="2">시내버스 노선 개선</label> <br>
+        <label><input type="radio" name="q7" value="3">여가시설 증설 </label> <br>
+        <label><input type="radio" name="q7" value="4">주차시설 증설</label> <br>
+    </form>
+    <br>
+    <form name="ques8">Q8. 춘천에 오는 방법은? <br>
+        <label><input type="radio" name="q8" value="1">버스 </label><br>
+        <label><input type="radio" name="q8" value="2">ITX</label> <br>
+        <label><input type="radio" name="q8" value="3">경춘선 </label> <br>
+        <label><input type="radio" name="q8" value="4">자가용</label> <br>
+    </form>
+
+    
+    <br>
+    <br>
+    <button onclick="submitsurvey();">제출하기</button>
+    <button onclick="showsurvey();">결과보기</button>
+    <br><br>
+    <div id="result"></div>
+</body>
+</html>
