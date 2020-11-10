@@ -67,13 +67,41 @@ function ex07(){
     console.log(a + " + "+b+" = "+(a+b)+" 입니다.");
 }
 
-function ex08(){
+function ex08(text="apple"){
     console.log("----- ex08 -----");
-    var text = "apple";
+    
     if(text == "apple")
         console.log("사과");
     else if(text == "banana")
         console.log("바나나");
     else   
         console.log("없는 항목 입니다.");
+}
+
+function ex10(text){
+    console.log("----- ex10 -----");
+    for(var i = 0;i<10;i++){
+        console.log("i = ",i);
+    }
+}
+
+function ex15(){
+    console.log("----- ex15 -----");
+    var array =[1,2,3,4,5];
+    for(var i = 0;i<array.length;i++){
+        console.log("array["+i+"]: ",array[i]);
+    }
+}
+
+function ex16(){
+    console.log("----- ex16 -----");
+    var person = {
+        name : ["이름", "성"],
+        age : 24,
+        fullName : function(){return this.name[0] +' '+ this.name[1]}
+    };
+    console.log("person.fullName    : ", person.fullName());
+    console.log("person.firstName   : ", person.name[0]);
+    console.log("person.lastName    : ", person.name[1]);
+    console.log("person.age         : ",person.age);
 }
