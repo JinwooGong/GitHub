@@ -10,55 +10,63 @@
 
 #define PORTNUM 9005
 
-int main(void){
-    char buf[BUFSIZ];
-    struct sockaddr_in sin;
-    int sd, n;
+int main(void)
+{
+  struct sockaddr_in stAddr;
+  int iSock;
+  int iRet;
+  char cBuff[BUFSIZ];
+  socklen_t uiSockLen=sizeof(struct sockaddr);
+  pid_t pid;
 
-    pid_t pid;
+  iSock = socket(AF_INET, SOCK_STREAM, 0);
+  if(0 > iSock)
+  {
+    perror("socket : ");
+    return -1;
+  }
 
-    //socket
-    if((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
-        perror("socket"); exit(1);
+  bzero(&stAddr, sizeof(stAddr));
+  stAddr.sin_family = AF_INET;
+
+  stAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+  stAddr.sin_port = htons(PORTNUM);
+
+  iRet = connect(iSock, (struct sockaddr *)&stAddr, uiSockLen);
+  if(0 > iRet)
+  {
+    perror("connect : ");
+    return -2;
+  }
+
+  pid = fork();
+
+  if(pid > 0)
+  {
+    close(0);
+    while(1)
+    {
+      read(iSock, cBuff, sizeof(cBuff));
+      printf("[server]: [%s]\n", cBuff);
+
+      if(0 == strncmp("exit", cBuff, 4))
+        break;
     }
 
-    memset((char *)&sin, '\0', sizeof(sin));
-    sin.sin_family = AF_INET;
-    sin.sin_port = htons(PORTNUM);
-    sin.sin_addr.s_addr = inet_addr("127.0.0.1");
+  }
+  else
+  {
+    close(1);
+    while(1)
+    {
+      iRet = read(0, cBuff, sizeof(cBuff));
+      cBuff[iRet-1] = 0;
+      write(iSock, cBuff, sizeof(cBuff));
 
-    if(connect(sd,(struct sockaddr *)&sin, sizeof(sin))){
-        perror("connect"); exit(1);
     }
 
-    switch(pid=fork()){
-        case -1:
-            perror("fork");
-            exit(1);
-            break;
-        case 0:
-            while(1){
-                fgets(buf,sizeof(buf),stdin);
-                n=strlen(buf);
-                write(sd,buf,sizeof(buf));
-                if(strncmp(buf,"exit",4)==0){
-                    printf("exit\n");
-                    break;
-                }
-            }
-            break;
-        default:
-            while(1){
-                if(n = read(sd,buf,sizeof(buf))<0){
-                    perror("read"); exit(1);
-                }
-                printf("** From Server : %s\n",buf);
-                if(strncmp(buf,"exit",4)==0){
-                    break;
-                }
-            }
-            break;
-    }
-    close(sd);
-    return 0;
+  }
+
+  close(iSock);
+  return 0;
 }
