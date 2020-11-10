@@ -14,6 +14,7 @@ int main(void){
     char buf[BUFSIZ];
     struct sockaddr_in sin,cli;
     int sd, ns, clen = sizeof(cli);
+    int flag, n;
 
     pid_t pid;
 
@@ -41,11 +42,27 @@ int main(void){
     }
 
     while(1){
-        //accept
-        if((ns = accept(sd,(struct sockaddr *)&cli, &clen))==-1){
+        if((ns=accept(sd,(struct sockaddr *)&cli, &clen))==-1){
             perror("accept"); exit(1);
         }
+        switch(fork()){
+            case -1:
+                perror("fork");
+                exit(1);
+                break;
+            case 0:
+                close(sd);
+                while(1){
+                    
+                }
+                break;
+
+            default:
+                break;
+        }
     }
+    close(ns);
+    close(sd);
 
     return 0;
 }
