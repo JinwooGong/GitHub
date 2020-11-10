@@ -12,7 +12,7 @@
 
 int main(void){
     int sd, n;
-    char buf[256];
+    char buf[BUFSIZ];
     struct sockaddr_in sin;
 
     //socket
@@ -32,25 +32,26 @@ int main(void){
         perror("connect");
         exit(1);
     }
-    if(recv(sd, buf, sizeof(buf),0)==-1){
-        perror("recv");
-        exit(1);
-    }
-    printf("%s\n",buf);
-    printf("Option : ");
-    gets(buf);
 
-    if(send(sd, buf, sizeof(buf)+1, 0)==-1){
-        perror("send");
-        exit(1);
+    if((n=recv(sd,buf,sizeof(buf), 0))==-1){
+        perror("recv"); exit(1);
     }
+    buf[n] = '\0';
+    printf("%s\n",buf);
     
-    if(recv(sd, buf, sizeof(buf), 0)==-1){
-        perror("recv");
-        exit(1);
+
+    printf("Input : ");
+    gets(buf);
+    
+    if(send(sd,buf,sizeof(buf)+1, 0)==-1){
+        perror("send"); exit(1);
     }
-    printf("My Message : %s\n",buf);
-    
+
+    if((n=recv(sd,buf,sizeof(buf), 0))==-1){
+        perror("recv"); exit(1);
+    }
+    buf[n] = '\0';
+    printf("Message > %s\n",buf);
     close(sd);
     return 0;
 }
