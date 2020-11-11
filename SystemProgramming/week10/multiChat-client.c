@@ -1,64 +1,64 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <fcntl.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
 
+#include<arpa/inet.h> // AF_INET 외부 네트워크 도메인
+#include<sys/types.h>
+#include<sys/socket.h>
+
+#define MAXLINE 511
 #define PORTNUM 9005
 
-int main(void){
-    char buf[BUFSIZ];
-    struct sockaddr_in sin;
-    int sd, n;
-
+int main(void)
+{
+    struct sockaddr_in ser;
+    int sd;
+    int iRet;
+    char cBuff[BUFSIZ];
     pid_t pid;
 
-    //socket
-    if((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
+    if((sd = socket(AF_INET, SOCK_STREAM, 0))==-1){
         perror("socket"); exit(1);
     }
 
-    memset((char *)&sin, '\0', sizeof(sin));
-    sin.sin_family = AF_INET;
-    sin.sin_port = htons(PORTNUM);
-    sin.sin_addr.s_addr = inet_addr("127.0.0.1");
+    memset((char *)&ser, '\0', sizeof(ser));
+    ser.sin_family = AF_INET;
 
-    if(connect(sd,(struct sockaddr *)&sin, sizeof(sin))){
-        perror("connect"); exit(1);
+    ser.sin_addr.s_addr = inet_addr("127.0.0.1");
+    ser.sin_port = htons(PORTNUM);
+
+    if(connect(sd, (struct sockaddr *)&ser, sizeof(ser))){
+        perror("connect");
+        exit(1);
     }
 
-    switch(pid=fork()){
-        case -1:
-            perror("fork");
-            exit(1);
+
+    pid = fork();
+
+    if(pid > 0)
+    {
+        close(0);
+        while(1)
+        {
+            read(sd, cBuff, sizeof(cBuff));
+            printf("[server]: [%s]\n", cBuff);
+
+            if(0 == strncmp("exit", cBuff, strlen(cBuff))){
+
             break;
-        case 0:
-            while(1){
-                fgets(buf,sizeof(buf),stdin);
-                n=strlen(buf);
-                write(sd,buf,sizeof(buf));
-                if(strncmp(buf,"exit",4)==0){
-                    printf("exit\n");
-                    break;
-                }
             }
-            break;
-        default:
-            while(1){
-                if(n = read(sd,buf,sizeof(buf))<0){
-                    perror("read"); exit(1);
-                }
-                printf("** From Server : %s\n",buf);
-                if(strncmp(buf,"exit",4)==0){
-                    break;
-                }
-            }
-            break;
+        }
     }
+    else{
+        close(1);
+        while(1){
+            iRet = read(0, cBuff, sizeof(cBuff));
+            cBuff[iRet-1] = 0;
+            write(sd, cBuff, sizeof(cBuff));
+        }
+    }
+
     close(sd);
     return 0;
 }
