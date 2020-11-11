@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {width: 50px;}
+    </style>
+    <script>
+        function Add(){
+            var a = Number(document.getElementById("num1").value);
+            var b = parseInt(document.getElementById("num2").value);
+            alert(a + "+" + b + "=" + (a+b) +" 입니다.");
+        }
+    </script>
+</head>
+<body>
+    <input type="number" id = "num1"> + 
+    <input type="number" id="num2">
+    <button onclick="Add();">Add</button>
+</body>
+</html>
