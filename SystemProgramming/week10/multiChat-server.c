@@ -2,20 +2,23 @@
 #include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
-#include<arpa/inet.h> //AF_INET 외부 내트워크 도메인
+#include<arpa/inet.h>
 #include<sys/types.h>
 #include<sys/socket.h>
 
-#define MAXLINE 511
 #define PORTNUM 9005
+
+int sd_arr[5] = {0,0,0,0,0};
 
 int main(void)
 {
     
     int iRet;
     struct sockaddr_in sin ,cli;
-    char cBuff[BUFSIZ];
+    char buf[BUFSIZ];
     int sd, ns, clen = sizeof(cli);
+    int n=0, i;
+    
 
     pid_t pid;
 
@@ -25,10 +28,10 @@ int main(void)
     } 
 
 
-    // stAddr구조체에 socket연결을 위한 필수 정보 입력  setting
-    memset((char *)&sin, '\0', sizeof(sin));            //구조체 비우기(0으로 채우기)
-    sin.sin_family = AF_INET;               //#define AF_INET 2 /* IP protocol family. */
-    sin.sin_addr.s_addr = inet_addr("127.0.0.1");    //IP와 PORT값은 헤더파일에 정의되어 있다.
+    // sin 구조체에 정보 입력
+    memset((char *)&sin, '\0', sizeof(sin));            //구조체 초기화
+    sin.sin_family = AF_INET;               
+    sin.sin_addr.s_addr = inet_addr("127.0.0.1");   
     sin.sin_port = htons(PORTNUM);
 
     if(bind(sd, (struct sockaddr *)&sin, sizeof(sin))==-1){
@@ -40,36 +43,37 @@ int main(void)
     }
     while(1) 
     {
+        printf("Accepting...\n");
         if((ns = accept(sd, (struct sockaddr *)&cli, &clen))==-1){
             perror("accept"); exit(1);
         }
 
-        
-        /////////////////////////////멀티 프로세스///////////////////////////////////////////
-        pid = fork();
+        printf("Client  Accept\n");
+        printf("Client IP :%s\n", inet_ntoa(cli.sin_addr));
 
-        if(pid ==  0)  //자식 프로세스이면 while문 break
-        {
-            break;
+        write(ns, "connected", sizeof("connected"));
+        switch(pid = fork()){
+            case -1:
+                perror("fork");
+                exit(1);
+                break;
+            case 0:
+                close(sd);
+                while(1){
+                    read(ns, buf, sizeof(buf));
+                    printf("[%d]: %s\n",ns, buf);
+
+                    write(ns,buf,sizeof(buf));
+                    if(strncmp(buf, "exit", strlen(buf))==0){
+                        printf("Exited %d\n",ns);
+                        close(ns);
+                        break;
+                    }
+                }
+                break;
         }
     }
-    close(sd);
-
-    printf("Incoming Client \n");
-    printf("Client IP :%s\n", inet_ntoa(cli.sin_addr));
-    printf("Client Port : %d\n", ntohs(cli.sin_port));  
-
-    write(IN_CLASSB_NSHIFT, "Welcome :)", sizeof("Welcome :)"));
-
-    while(1)
-    {
-        read(ns, cBuff, sizeof(cBuff));
-        printf("[client]: [%s]\n", cBuff);
-
-        write(ns, cBuff, sizeof(cBuff));
-        if(0 == strncmp("exit", cBuff, strlen(cBuff) ) )
-        break;
-    }
     close(ns);
+    close(sd);
     return 0;
 }

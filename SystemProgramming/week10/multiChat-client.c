@@ -2,20 +2,18 @@
 #include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
-
-#include<arpa/inet.h> // AF_INET 외부 네트워크 도메인
+#include<arpa/inet.h>
 #include<sys/types.h>
 #include<sys/socket.h>
 
-#define MAXLINE 511
 #define PORTNUM 9005
 
 int main(void)
 {
     struct sockaddr_in ser;
     int sd;
-    int iRet;
-    char cBuff[BUFSIZ];
+    int n;
+    char buf[BUFSIZ];
     pid_t pid;
 
     if((sd = socket(AF_INET, SOCK_STREAM, 0))==-1){
@@ -33,32 +31,34 @@ int main(void)
         exit(1);
     }
 
-
-    pid = fork();
-
-    if(pid > 0)
-    {
-        close(0);
-        while(1)
-        {
-            read(sd, cBuff, sizeof(cBuff));
-            printf("[server]: [%s]\n", cBuff);
-
-            if(0 == strncmp("exit", cBuff, strlen(cBuff))){
-
+    switch(pid=fork()){
+        case -1:
+            perror("fork");
+            exit(1);
             break;
-            }
-        }
-    }
-    else{
-        close(1);
-        while(1){
-            iRet = read(0, cBuff, sizeof(cBuff));
-            cBuff[iRet-1] = 0;
-            write(sd, cBuff, sizeof(cBuff));
-        }
-    }
 
+        case 0 :
+            while(1){
+                read(sd, buf, sizeof(buf));
+                if(strncmp("exit", buf, strlen(buf))==0){
+                    break;
+                }
+
+            }
+            break;
+        default:
+            while(1){
+                n = read(0, buf, sizeof(buf));
+                buf[n-1] = 0;
+
+                write(sd, buf, sizeof(buf));
+                if(strncmp("exit", buf, strlen(buf))==0){
+                    break;
+                }
+                
+            }
+            break;
+    }
     close(sd);
     return 0;
 }
