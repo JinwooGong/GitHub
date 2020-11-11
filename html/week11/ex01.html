@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습과제01</title>
+    <script>
+        function changeColor(color){
+            document.getElementById("target").style.backgroundColor = color;
+        }
+    </script>
+</head>
+<body id="target">
+    <form method="POST">
+        <input type="radio" name="C1" value="v1" onclick="changeColor('lightblue')">파랑색
+        <input type="radio" name="C1" value="v2" onclick="changeColor('lightgreen')">녹색
+    </form>
+</body>
+</html>

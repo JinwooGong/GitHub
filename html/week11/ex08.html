@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습과제08</title>
+    <script>
+        function checkSelect(field){
+            if(field.value == 1){
+                alert("선택하세요!");
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form>
+        과일선택 
+        <select name="fruit" id="fruit">
+            <option value="1">선택하세요</option>
+            <option value="2">사과</option>
+            <option value="3">배</option>
+            <option value="4">바나나</option>
+        </select>
+        <input type="button" value="확인" onclick="checkSelect(document.getElementById('fruit'));">
+    </form>
+</body>
+</html>

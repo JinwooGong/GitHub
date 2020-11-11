@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습과제05</title>
+    <script>
+        function checkNotEmpty(field){
+            if(field.value.length == 0){
+                alert("필드가 비어있네요!");
+                field.focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    이름 : <input type="text" id="user">
+    <input type="button" value="확인" onclick="checkNotEmpty(document.getElementById('user'));"> 
+</body>
+</html>

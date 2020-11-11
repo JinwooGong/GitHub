@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function checkNumber(field){
+            var pattern = /^[0-9]+$/;
+            if(field.value.match(pattern)){
+                return true;
+            }
+            else{
+                alert("숫자만 입력하세요!");
+                field.focus();
+                field.value = "";
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form>
+        전화번호(-없이 입력) : <input type="text" id="number">
+        <input type="button" value="확인" onclick="checkNumber(document.getElementById('number'))">
+    </form>
+    
+</body>
+</html>
