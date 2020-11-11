@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습과제06</title>
+    <script>
+        function checkLength(field,min,max){
+            if(field.value.length < min || field.value.length > max){
+                alert(min + " - " + max + "문자 사이로 입력해주세요!");
+                field.focus();
+                field.value = "";
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <form>
+        이름(6-8 문자) : <input type="text" id="name">
+        <input type="button" value="확인" onclick="checkLength(document.getElementById('name'),6,8)">
+    </form>
+</body>
+</html>

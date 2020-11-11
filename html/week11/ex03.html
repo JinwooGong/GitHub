@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습과제03</title>
+    <script>
+        function sub(){
+            var text = document.getElementById("text");
+            text.value = text.value.toLowerCase();
+        }
+    </script>
+</head>
+<body>
+    <form>
+        영어단어 : <input type="text" id="text" onchange="sub()"> <br>
+        입력필드를 벗어나면 소문자로 변경됩니다.
+    </form>
+</body>
+</html>

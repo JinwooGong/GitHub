@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #btnToggle{
+            background-color: yellow;
+            width: 200px;
+            padding: 10px 0 10px 0;
+            text-align: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $("#btnToggle").on('click', function(){
+                $('#marker').fadeToggle("slow");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="btnToggle">눌러주세요</div>
+    <img id="marker" style="width: 200px; margin: 10px;" 
+    src="https://blog.kakaocdn.net/dn/0mySg/btqCUccOGVk/nQ68nZiNKoIEGNJkooELF1/img.jpg" srcset="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0mySg%2FbtqCUccOGVk%2FnQ68nZiNKoIEGNJkooELF1%2Fimg.jpg" alt="img">
+</body>
+</html>
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습과제09</title>
+    <script>
+        var exp = "";
+        function btnClear(result){
+            exp = "";
+            result.value = 0;
+        }
+        
+        function btnNum(number){
+            exp += number;
+            document.getElementById('result').value = exp;
+        }
+
+        function btnEnter(result){
+            result.value = eval(exp);
+            exp = result.value;
+        }
+    </script>
+</head>
+<body>
+    <form>
+        display <input type="text" id="result"> <br><br>
+        <input type="button" value="7" onclick="btnNum('7')">
+        <input type="button" value="8" onclick="btnNum('8')">
+        <input type="button" value="9" onclick="btnNum('9')">
+        <input type="button" value="/" onclick="btnNum('/')"> <br>
+
+        <input type="button" value="4" onclick="btnNum('4')">
+        <input type="button" value="5" onclick="btnNum('5')">
+        <input type="button" value="6" onclick="btnNum('6')">
+        <input type="button" value="*" onclick="btnNum('*')"> <br>
+
+        <input type="button" value="1" onclick="btnNum('1')">
+        <input type="button" value="2" onclick="btnNum('2')">
+        <input type="button" value="3" onclick="btnNum('3')">
+        <input type="button" value="-" onclick="btnNum('-')"> <br>
+
+        <input type="button" value="0" onclick="btnNum('0')">
+        <input type="button" value="+" onclick="btnNum('+')"> <br>
+
+        <input type="button" value="Clear" onclick="btnClear(document.getElementById('result'));">
+        <input type="button" value="Enter" id="enter" onclick="btnEnter(document.getElementById('result'))">
+
+    </form>
+</body>
+</html>
