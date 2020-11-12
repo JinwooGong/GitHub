@@ -19,10 +19,7 @@ int main(void){
     int i,j, n;
 
     //socket
-    if((sd=socket(AF_INET, SOCK_STREAM, 0))==-1){
-        perror("socket");
-        exit(1);
-    }
+    if((sd=socket(AF_INET, SOCK_STREAM, 0))==-1){ perror("socket"); exit(1); }
 
     //구조체 설정
     memset((char *)&sin, '\0', sizeof(sin));
@@ -31,16 +28,10 @@ int main(void){
     sin.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     //bind
-    if(bind(sd,(struct sockaddr *)&sin, sizeof(sin))){
-        perror("bind");
-        exit(1);
-    }
+    if(bind(sd,(struct sockaddr *)&sin, sizeof(sin))){ perror("bind"); exit(1); }
 
     //listen
-    if(listen(sd,5) < 0){
-        perror("listen");
-        exit(1);
-    }
+    if(listen(sd,5) < 0){ perror("listen"); exit(1); }
 
     while(1){ //동시 동작 서버
         if((ns = accept(sd,(struct sockaddr *)&cli, &clen))==-1){
@@ -52,31 +43,32 @@ int main(void){
         switch(fork()){
             case 0 : // 자식 프로세스
                 close(sd);
-                //menu send
-                if(send(ns,buf,strlen(buf)+1,0)==-1){
-                    perror("send"); exit(1);
-                }
+                //클라이언트에게 메뉴 전송
+                if(send(ns,buf,strlen(buf)+1,0)==-1){ perror("send"); exit(1); }
 
-                if(recv(ns,buf,strlen(buf),0)==-1){
-                    perror("recv"); exit(1);
-                }
+                //클라이언트로부터 메세지를 받아옴
+                if(recv(ns,buf,strlen(buf),0)==-1){ perror("recv"); exit(1); }
+                //받은 메세지를 화면에 출력
                 printf("**From Client : %s\n",buf);
 
+                //메세지가 <ECHO>로 시작하는지 비교
                 if(strncmp(buf,"<ECHO>",6)==0){
                     for(i=0, j=6;j<=strlen(buf);i++,j++){
                         tmp[i] = buf[j];
                     }
-                    
-                    if(send(ns,tmp,strlen(tmp)+1,0)==-1){
-                        perror("send"); exit(1);
-                    }
+                    //<ECHO>를 제외한 문자열을 클라이언트에게 보내줌
+                    if(send(ns,tmp,strlen(tmp)+1,0)==-1){ perror("send"); exit(1); }
                 }
+
+                //받은 메세지가 <STIME>이면 time프로세스로 변경
                 else if(strcmp(buf,"<STIME>")==0){
                     dup2(ns,STDIN_FILENO);
                     dup2(ns,STDOUT_FILENO);
                     close(ns);
                     execl("./time","time",(char *)0);
                 }
+
+                //받은 메세지가 <SINFO>이면 서버의 정보를 보내줌
                 else if(strcmp(buf,"<SINFO>")==0){
                     sethostent(0);
 
@@ -90,14 +82,13 @@ int main(void){
                     }
                     endhostent();
                 }
+                //받은 메세지가 <QUIT>이면 소켓을 닫아줌
                 else if(strcmp(buf,"<QUIT>")==0){
                     close(ns);
                 }
-                
-                sleep(1);
                 break;
         }
-        close(ns);
     }
+    close(ns);
     return 0;
 }

@@ -16,10 +16,7 @@ int main(void){
     struct sockaddr_in sin;
 
     //socket
-    if((sd = socket(AF_INET, SOCK_STREAM, 0))==-1){
-        perror("socket");
-        exit(1);
-    }
+    if((sd = socket(AF_INET, SOCK_STREAM, 0))==-1){ perror("socket"); exit(1); }
 
     //구조체 설정
     memset((char *)&sin, '\0', sizeof(sin));
@@ -28,25 +25,23 @@ int main(void){
     sin.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     //connect
-    if(connect(sd, (struct sockaddr *)&sin, sizeof(sin))){
-        perror("connect");
-        exit(1);
-    }
+    if(connect(sd, (struct sockaddr *)&sin, sizeof(sin))){ perror("connect"); exit(1); }
 
-    if((n=recv(sd,buf,sizeof(buf), 0))==-1){
-        perror("recv"); exit(1);
-    }
+    if((n=recv(sd,buf,sizeof(buf), 0))==-1){ perror("recv"); exit(1); }
+    
+    //서버로부터 받은 메뉴 출력
     buf[n] = '\0';
     printf("%s\n",buf);
     
-
     printf("Input : ");
     gets(buf);
     
+    //서버에게 입력한 메세지 전송
     if(send(sd,buf,sizeof(buf)+1, 0)==-1){
         perror("send"); exit(1);
     }
 
+    //서버에게 받은 결과를 화면에 출력
     if((n=recv(sd,buf,sizeof(buf), 0))==-1){
         perror("recv"); exit(1);
     }

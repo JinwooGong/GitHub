@@ -8,7 +8,7 @@
 #include <string.h>
 #include <time.h>
 
-#define PORTNUM 9005
+#define PORTNUM 9005 //9005번 포트번호 사용
 
 int main(void){
     char buf[256];
@@ -18,11 +18,13 @@ int main(void){
     struct tm *tm;
     time_t t;
 
+    //socket
     if((sd = socket(AF_INET, SOCK_DGRAM , 0))==-1){
         perror("socket");
         exit(1);
     }
 
+    //구조체 설정
     memset((char *)&sin, '\0', sizeof(sin));
     sin.sin_family = AF_INET;
     sin.sin_port = htons(PORTNUM);
@@ -35,12 +37,14 @@ int main(void){
     }
 
     while(1){
+        //클라이언트로부터 요청을 받음
         if((recvfrom(sd, buf, 255, 0, (struct sockaddr *)&cli, &clen)) == -1){
             perror("recvfrom");
             exit(1);
         }
-        printf("*** From Client : %s\n", buf);
-
+        printf("** From Client : %s\n", buf);
+        
+        //요청을 받으면 시간을 조회해서 보내줌
         time(&t);
         tm = localtime(&t);
         strftime(buf, sizeof(buf), "%G년, %m월 %d일 %H:%M:%S", tm);
