@@ -31,7 +31,7 @@ skip     { return(SKIP);      }
 then     { return(THEN);      }
 while    { return(WHILE);     }
 write    { return(WRITE);     }
-{ID}     { yylaval.id = (char *)strdup(yytext); return(IDENTIFIER); }
+{ID}     { yylval.id = (char *)strdup(yytext); return(IDENTIFIER); }
 [ \t\n]+ /* eat up whitespace */
 .        { return(yytext[0]); }
 %%
