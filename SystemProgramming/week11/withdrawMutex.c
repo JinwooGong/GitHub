@@ -23,7 +23,7 @@ void disburse_money(struct account * account,int amount, char *tname){
     printf("%s : %d 인출됨\n",tname,amount);
 }
 
-int withdraw(struct account * account, int amount, char* tname){
+int withdraw(struct account *account, int amount, char* tname){
     pthread_mutex_lock(& account->mutex); //잠금
     //(1) 잔액 확인
     int balance = account->balance;
