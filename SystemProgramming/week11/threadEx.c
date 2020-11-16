@@ -16,9 +16,9 @@ void * start_thread(void *std){
     int i;
     struct StudentInfo *sinfo = (struct StudentInfo *)std;
     for(i=0;i<10;i++){
-        sleep(1);
+        //sleep(1);
         printf("Name:%s, Major:%s, Univ:%s\n",sinfo->name,sinfo->major,sinfo->univ);
-        sleep(1);
+        //sleep(1);
     }
 
     return std;
