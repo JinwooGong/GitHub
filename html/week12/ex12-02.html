@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>치매 예방 프로그램</title>
+    <script>
+        function result(){
+            var total=0; //총점을 저장하는 변수
+            var res = document.getElementById("res");
+
+            //computation() : 계산 결과, 답, span태그, total을 인자로 전달
+            //반환받은 값을 total값에 더함
+            total += computation(eval(5*6), document.getElementById("a1").value, document.getElementById("q1"));
+            total += computation(eval(7+5*3), document.getElementById("a2").value, document.getElementById("q2"));
+            total += computation(eval(23*2), document.getElementById("a3").value, document.getElementById("q3"));
+            total += computation(eval(35-7), document.getElementById("a4").value, document.getElementById("q4"));
+
+            //total 값이 40점이면 합격 메세지 출력
+            if(total>=40){res.innerHTML = total+ "점 : 합격하셨습니다.";}
+            else {res.innerHTML = total + " 점";}
+        }
+
+        //computation() : 계산 결과, 답, span태그, total을 인자로 받고
+        // 계산 결과와 답이 같은지 비교하여 다르면 span태그의 textDecoration을 line-through로 변경하고 0을 리턴
+        // 계산 결과와 답이 같으면 span태그의 textDecoration을 none으로 변경하고 10을 리턴
+        // total 점수 반환
+        function computation(comp, a, q, total){
+            if(comp != a){
+                q.style.textDecoration = "line-through";
+                return 0;
+            }
+            else{
+                q.style.textDecoration = "none";
+                return 10;
+            }
+        }
+        function minusTotal(t){
+            if(t<0) return t;
+        }
+    </script>
+</head>
+<body>
+    <h3>치매 예방 프로그램</h3>
+    <hr>
+    <table>
+        <tr>
+            <td><span id="q1">5*6</span></td>
+            <td><input type="text" id="a1"></td>
+        </tr>
+        <tr>
+            <td><span id="q2">7+5*3</span></td>
+            <td><input type="text" id="a2"></td>
+        </tr>
+        <tr>
+            <td><span id="q3">23*2</span></td>
+            <td><input type="text" id="a3"></td>
+        </tr>
+        <tr>
+            <td><span id="q4">35-7</span></td>
+            <td><input type="text" id="a4"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="채점" onclick="result()"></td>
+            <td><span id="res">0 점</span></td>
+        </tr>
+    </table>
+</body>
+</html>

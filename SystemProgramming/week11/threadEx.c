@@ -24,11 +24,10 @@ void * start_thread(void *std){
     return std;
 }
 
-
 int main(void){
     pthread_t th1, th2;
     struct StudentInfo std1, std2;
-    
+
     strcpy(std1.name,"Brad Pitt");
     strcpy(std1.major,"Computer Engineering");
     strcpy(std1.univ,"Holly University");
@@ -42,6 +41,6 @@ int main(void){
 
     pthread_join(th1, NULL);
     pthread_join(th2, NULL);
-    
+
     return 0;
 }
