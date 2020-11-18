@@ -78,11 +78,12 @@ int main() {
     message[read_size] ='\n';
 
     game.turn = atoi(message);
-    printf("%d\n",game.turn);
     puts("");
     puts("Input your ID >>");
     scanf("%s",name[game.turn]);
     printf("Wellcome %s\n",name[game.turn]);
+    if(game.turn==0) puts("First turn");
+    else puts("Second turn");
 
     sleep(2);
 
@@ -161,6 +162,8 @@ void drawBoard(){
 	drawChar(0, BORDER_Y - 1, "┐");
 	drawChar(BORDER_X - 1, BORDER_Y - 1, "┘");
     mvprintw(BORDER_X+1, 0,"You : %s",name[game.turn]);
+    if(game.turn == 0) mvprintw(BORDER_X+2,0,"Your Turn");
+        else mvprintw(BORDER_X+2,0,"Waiting Turn");
 	move(0,0);
 }
 
@@ -232,7 +235,10 @@ void *recv_manager(void *socket_desc)
         c = atoi(&temp[2])%10;
 
         input(x,y,c);
-
+        mvprintw(BORDER_X+2,0,"                  ");
+        if(c!=game.turn) mvprintw(BORDER_X+2,0,"Your Turn");
+        else mvprintw(BORDER_X+2,0,"Waiting Turn");
+        refresh();
         //client_message 메모리 초기화
         memset(client_message, 0, BUFSIZ);
     }
