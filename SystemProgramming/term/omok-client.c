@@ -44,11 +44,10 @@ static struct omokgame game;
 void drawBoard();
 void drawChar(int x, int y, char *str);
 void input(int x, int y, int c);
-void keyInput(int kVal);
+void spaceKey(int kVal);
 void moveCursor(int kVal);
-void *recv_handler(void *socket_desc);
-void omokKeyProc();
-int endGame(int c);
+void *recv_manager(void *socket_desc);
+void key_manager();
 
 int main() {
     time_t t = time(NULL);
@@ -88,7 +87,7 @@ int main() {
     sleep(2);
 
 
-    if( pthread_create( &thread_id , NULL ,  recv_handler , (void*) &sock) == -1){
+    if( pthread_create( &thread_id , NULL ,  recv_manager , (void*) &sock) == -1){
         perror("pthread_create"); exit(1);
     }
 
@@ -114,16 +113,16 @@ int main() {
             sleep(3);
             break;
         }
-        omokKeyProc(); //omokKeyProc()함수 호출
+        key_manager(); //key_manager()함수 호출
     }
     endwin(); //ncurses 종료
 }
 
-void omokKeyProc() {
+void key_manager() {
     //키를 입력받고 각 함수에 인자로 전달함
     int keyVal = getch();
     moveCursor(keyVal); //커서 이동 함수
-    keyInput(keyVal);
+    spaceKey(keyVal);
 }
 
 void drawChar(int x, int y, char *str) {
@@ -197,7 +196,7 @@ void input(int x, int y, int c) {
     }
 }
 
-void keyInput(int kVal) {
+void spaceKey(int kVal) {
     int c = game.turn % 2;
     switch(kVal) {
         case ' ' : //SpaceBar 클릭
@@ -208,7 +207,7 @@ void keyInput(int kVal) {
     }
 }
 
-void *recv_handler(void *socket_desc)
+void *recv_manager(void *socket_desc)
 {
     //Get the socket descriptor
     int sock2 = *(int*)socket_desc;

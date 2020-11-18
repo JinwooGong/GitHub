@@ -9,7 +9,7 @@
 #define PORTNUM 9010
 
 //the thread function
-void *client_handler(void *);
+void *client_manager(void *);
 
 static int turn = 0;
 static int next_turn = 0; //다음 순서
@@ -60,7 +60,7 @@ int main(int argc , char *argv[])
 
         //클라이언트를 제어하기 위한 스레드 생성
         //인자로 클라이언트와 연결된 소켓을 전달
-        if( pthread_create(&thread_id , NULL , client_handler , (void*) &client_sock[turn]) == -1){
+        if( pthread_create(&thread_id , NULL , client_manager , (void*) &client_sock[turn]) == -1){
             perror("pthread_create"); exit(1);
         }
 
@@ -73,16 +73,13 @@ int main(int argc , char *argv[])
             turn =0;
 
         }
-        //Now join the thread , so that we dont terminate before the thread
-        //pthread_join( thread_id , NULL);
-        puts("Handler assigned");
     }
 
     return 0;
 }
 
 
-void *client_handler(void *socket)
+void *client_manager(void *socket)
 {
     int sock = *(int*)socket; //인자로 전달받은 소켓
     int n; //읽은 메세지의 크기를 저장할 변수
