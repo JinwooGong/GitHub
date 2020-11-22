@@ -2,16 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>jQuery 태그 선택자</title>
+    <title>jQuery 속성 선택자</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script>
-        $(document).ready(function (){
-            $('h1').css('color','blue');
+        $(document).ready(function(){
+            $('input[type="text"]').val('이름을 입력하세요');
         });
     </script>
 </head>
 <body>
-    <h1>jQuery 테스트</h1>
-    <p>jQuery 테스트</p>
+    이름 : <input type="text">
 </body>
 </html>

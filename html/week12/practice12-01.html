@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>옵션 선택으로 사이트 접속</title>
+
+    <script>
+        function load(){
+            var select = document.getElementById("site");
+            window.open(select.options[select.selectedIndex].value,"myWin","left=300,top=300,width=800,height=300");
+        }
+    </script>
+</head>
+<body>
+    <h3>옵션 선택으로 사이트 접속</h3>
+    윈도우 하나를 공유합니다.
+    <hr>
+    접속할 사이트 <br>
+    <select id="site" onchange="load()">
+        <option value="" selected>사이트 선택</option>
+        <option value="https://www.oracle.com/kr/index.html">오라클</option>
+        <option value="http://www.naver.com">네이버</option>
+        <option value="http://www.google.com">구글</option>
+    </select>
+</body>
+</html>

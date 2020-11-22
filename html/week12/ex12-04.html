@@ -2,16 +2,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>jQuery 태그 선택자</title>
+    <title>jQuery 아이디 선택자</title>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script>
-        $(document).ready(function (){
-            $('h1').css('color','blue');
+        $(document).ready(function(){
+            $('#target').css('color','red');
         });
     </script>
 </head>
 <body>
     <h1>jQuery 테스트</h1>
-    <p>jQuery 테스트</p>
+    <h1 id="target">jQuery 테스트</h1>
+</body>
 </body>
 </html>
