@@ -9,6 +9,7 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <sys/shm.h>
+#include <curses.h>
 
 #define SIZE 1024
 int main(void){
@@ -31,11 +32,12 @@ int main(void){
         perror("open"); exit(1);
     }
 
-    printf("Client =====\n");
+    initscr();
+    printw("Client =====\n");
 
     while(1){
-        write(1, "To Server : ", 13);
-        fgets(buf,SIZE,stdin);  //메세지 입력
+        printw("To Server : ");
+        getstr(buf);  //메세지 입력
         
         //write
         //파이프를 통해 서버에게 메세지를 보냄
@@ -43,18 +45,17 @@ int main(void){
         if(n==-1){ perror("write"); exit(1); }
         //입력한 메세지가 <EXIT>면 반복문 종료
         if(strncmp(buf,"<EXIT>",6)==0){
-            printf("FIFO Closed...\n");
-            break;
+            printw("FIFO Closed...\n"); break;
         }
         //입력한 메세지가 <GET>이면 파일 다운로드
         if(strncmp(buf,"<GET>",5)==0){
-            printf("Getting Message...\n");
+            printw("Getting Message...\n");
             sleep(1); //서버가 공유 메모리를 쓸 때 까지 기다림
             //서버가 공유 메모리 사용을 마침
             //공유 메모리 첨부
             shmaddr = shmat(shmid,NULL,0);
             if(strncmp((char*)shmaddr,"error",5)==0){
-                printf("Error : File does not exist\n");
+                printw("Error : File does not exist\n");
             }
             else{
                 memset(file_name,'\0',strlen(file_name)); //파일명 초기화
@@ -64,12 +65,10 @@ int main(void){
                     temp[i] = buf[j];
                 }
                 temp[i] = '\0';
-                
                 strcat(file_name,temp); //파일명 연결
 
                 //다운로드 파일명 출력
-                printf("File Download : %s\n",file_name);
-
+                printw("File Download : %s\n",file_name);
                 //파일을 읽기 전용으로 열기 (없으면 생성)
                 if((fd = open(file_name,O_CREAT|O_WRONLY, 0644))==-1){
                     perror("write open");
@@ -77,8 +76,10 @@ int main(void){
                 }
                 //파일의 공유 메모리로 받은 내용 쓰기 (다운로드)
                 write(fd,(char *)shmaddr,strlen(shmaddr));
-                printf("Downloaded %s\n",file_name);    //다운로드 완료
+                printw("Downloaded %s\n",file_name);    //다운로드 완료
+                refresh();
             }
         }
-    }close(pd); return 0;
+        refresh();
+    } endwin(); close(pd); return 0;
 }

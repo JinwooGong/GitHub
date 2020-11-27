@@ -1,10 +1,10 @@
-all: fifo-client fifo-server
+all: fifoCurses-server fifoCurses-client
 
-fifo-client: fifo-client.c
-	gcc -o fifo-client fifo-client.c
+fifoCurses-server: fifoCurses-server.c
+	gcc -o fifoCurses-server fifoCurses-server.c -lncurses
 
-fifo-server: fifo-server.c
-	gcc -o fifo-server fifo-server.c
+fifoCurses-client: fifoCurses-client.c
+	gcc -o fifoCurses-client fifoCurses-client.c -lncurses
 
 clear:
-	rm FIFO_0 FIFO_1
+	rm fifoCurses-server fifoCurses-client

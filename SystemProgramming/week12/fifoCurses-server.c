@@ -9,9 +9,9 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <sys/shm.h>
+#include <curses.h>
 
 #define SIZE 1024
-
 
 int main(void) {
     int pd, n;
@@ -26,13 +26,13 @@ int main(void) {
     sigset_t mask;
 
     
-
     key = ftok("shmfile", 1); // 키 생성
     // 공유 메모리 생성
     shmid = shmget(key, SIZE, IPC_CREAT|0666); 
-    
-    printf("Listener wait for Client\n");
-
+    initscr();
+    clear();
+    printw("Listener wait for Client\n");
+    refresh();
     //이름있는 파이프 생성
     /*
     if(mkfifo("HAN-FIFO", 0644) == -1) {
@@ -46,29 +46,30 @@ int main(void) {
     }
     
     //다른 프로세스가 연결되면 문장 출력
-    printf("Listener Start =====\n");
-
+    clear();
+    printw("Listener Start =====\n");
+    refresh();
     while(1){
-        printf("From Client : ");
-        
+        printw("From Client : ");
         //read
         n=read(pd,buf,SIZE);
-        if(n == -1) {
-            perror("read");
-            exit(1);
-        }
-        printf("%s",buf);
+        if(n == -1) { perror("read"); exit(1); }
+        printw("%s\n",buf);
+        refresh();
         if(strncmp(buf,"<EXIT>",6)==0){
-            printf("FIFO Closed...\n");
+            printw("FIFO Closed...\n");
+            refresh();
+            sleep(5);
             break;
         }
         if(strncmp(buf,"<GET>",5)==0){
+            printw("11\n");
             memset(file_name,0,SIZE);
             for(i=0,j=6;j<strlen(buf)-1;i++,j++){
                 file_name[i] = buf[j];
             }
-
-            printf("File : %s\n",file_name);
+            printw("11\n");
+            printw("File : %s\n",file_name);
             if((access(file_name,0))==0){
                 if((fd=open(file_name,O_RDONLY))==-1){
                     perror("open");
@@ -80,16 +81,14 @@ int main(void) {
                     // 공유 메모리에 데이터 기록하기
                     strcpy(shmaddr, file_buf); 
                 }
-                printf("\n");
-                
-                printf("File Message : %s\n",(char *)shmaddr);
+                printw("\nFile Message : %s\n",(char *)shmaddr);
             }
             else{
                 strncpy((char*)shmaddr, "error",5);
             }
         }
     }
-
+    endwin();
     close(pd);
     return 0;
 }
