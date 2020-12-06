@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>hover() 메소드</title>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+        .reverse{
+            background-color:black;
+            color:white;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $('h1').hover(function(){
+                $(this).addClass('reverse');
+            }, function(){
+                $(this).removeClass('reverse');
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Header-0</h1>
+    <h1>Header-1</h1>
+    <h1>Header-2</h1>
+</body>
+</html>

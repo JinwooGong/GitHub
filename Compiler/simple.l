@@ -1,23 +1,12 @@
-/***************************************************************************
-                   Scanner for the Simple language
-***************************************************************************/
 %{
-/*=========================================================================
-       C-libraries and Token definitions
-  =========================================================================*/
-#include "simple.tab.h" /* for token definitions and yylval */
+  #include <string.h>     /* for strdup */
+  #include "simple.tab.h" /* for token definitions and yylval */
 %}
-/*=========================================================================
-       TOKEN Definitions
-  =========================================================================*/
 DIGIT [0-9]
 ID [a-z][a-z0-9]*
-/*=========================================================================
-       REGULAR EXPRESSIONS defining the tokens for the Simple language
-  =========================================================================*/
 %%
 ":="     { return(ASSGNOP);   }
-{DIGIT}+ { yylval = atoi( yytext ); return(NUMBER); }
+{DIGIT}+ { yylval.intval = atoi( yytext ); return(INT); }
 do       { return(DO);        }
 else     { return(ELSE);      }
 end      { return(END);       }
@@ -31,7 +20,7 @@ skip     { return(SKIP);      }
 then     { return(THEN);      }
 while    { return(WHILE);     }
 write    { return(WRITE);     }
-{ID}     { return(IDENTIFIER); }
+{ID}     { yylaval.id = (char *) strdup(yytext); return(IDENTIFIER); }
 [ \t\n]+ /* eat up whitespace */
 .        { return(yytext[0]); }
 %%
@@ -39,5 +28,4 @@ int yywrap(void)
 {
   return 0;
 }
-/************************** End Scanner File *****************************/
 
