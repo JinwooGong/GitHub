@@ -29,6 +29,6 @@ int main(void){
             exit(1);
         }
         pause(); //알람 시그널이 발생할때 까지 기다림
-        //1초 간격으로 SIGALRM의 handler 함수 호출
+        //1초 간격으로 SIGALRM의 handler 함수 호출됨
     }
 }

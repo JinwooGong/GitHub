@@ -48,6 +48,8 @@ void spaceKey(int kVal);
 void moveCursor(int kVal);
 void *recv_manager(void *socket_desc);
 void key_manager();
+int endGame(int c);
+int getBoardState(int x, int y);
 
 int main() {
     time_t t = time(NULL);
@@ -196,6 +198,9 @@ void input(int x, int y, int c) {
     if(game.board[x][y] == -1 && x != 0 && x != BORDER_X-1 && y != 0 && y != BORDER_Y-1) {
         drawChar(x, y, pObjs[c]); // 바둑돌을 그림
         game.board[x][y] = c; //2차원 배열에 channel 표시
+
+        if(endGame(c)) //게임이 끝나면 game.conti에 0 저장
+            game.conti = 0;
     }
 }
 
@@ -245,5 +250,45 @@ void *recv_manager(void *socket_desc)
     if(read_size == -1){
         perror("recv"); exit(1);
     }
+    return 0;
+}
+
+int getBoardState(int x, int y) {
+    if(x>=0 && x<BORDER_X && y>=0 && y<BORDER_Y) {
+            return game.board[x][y];
+    }
+    return 2;
+}
+
+int endGame(int c) {
+
+    int dx[] = {1, 1, 0, -1, -1, -1, 0, 1};
+    int dy[] = {0, 1, 1, 1, 0, -1, -1, -1};
+
+    int x, y, color, d;
+
+    for(x = 1; x<BORDER_X; x++)
+        for(y = 1; y<BORDER_Y; y++) {
+            color = getBoardState(x,y);
+            if(color == c) {
+                for(d = 0; d < 8; d++) {
+                    int i=1;
+                    for(i = 1; i< 5; i++) {
+                        int tx = x+(dx[d] *i);
+                        int ty = y+(dy[d] *i);
+
+                        if(getBoardState(tx,ty) != c)
+                            break;
+                    }
+                    if(i==5) {
+                        move(13,0);
+                        if(c)   mvprintw(BORDER_X+5,0,"********** Second win! ***********");
+                        else    mvprintw(BORDER_X+5,0,"********** First win! ***********");
+                        refresh();
+                        return 1;
+                    }
+                }
+            }
+        }
     return 0;
 }

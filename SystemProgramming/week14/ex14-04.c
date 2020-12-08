@@ -2,15 +2,15 @@
 #include <signal.h>
 #include <stdio.h>
 
+sigset_t st;
 void handler(){
-    sigset_t st;
-    
-    sigfillset(&st);
-    sigdelset(&st,SIGINT);
-    sigdelset(&st,SIGALRM);
-    sigprocmask(SIG_BLOCK,&st,NULL);
-    
-    printf("At handler : Wake up!\n");
+        /* 메시지 출력 */ 
+        printf("At handler : Wake up!\n");
+
+        /* SIGINT 를 제외한 모든 시그널 블로킹*/
+        sigfillset(&st);        //모든 시그널을 집합에 추가
+        sigdelset(&st,SIGINT);  //집합에서 SIGINT 제외
+        sigprocmask(SIG_BLOCK,&st,NULL); //집합의 모든 시그널 블로킹
 }
 
 int main(void) {
